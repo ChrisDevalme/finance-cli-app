@@ -1,37 +1,44 @@
-# Project Title
+# Project Title: Finance CLI App
 
 ## Description of the Project
 
-Briefly describe what this Java console application does. Mention its purpose and who the intended users are. Explain the main functionality and what problems it aims to solve.
+
+This application is intended for users who want a lightweight way to manage transaction history and view financial reports. Its main functionality includes adding deposits, recording debit payments, viewing a full ledger, filtering transactions, and running built-in reports such as month-to-date, previous month, year-to-date, and vendor searches. The project solves the problem of manually keeping track of account activity by storing transactions in a CSV file and making them easy to review through a clear menu-driven interface.
 
 ## User Stories
 
-- As a customer, I want to view all available products so that I can decide what I want to buy.
-- As a customer, I want to search for a product by product ID so that I can quickly find a specific item.
-- As a customer, I want to add products to my cart so that I can keep track of items I want to purchase.
-- As a customer, I want to view my cart so that I can review the items I selected.
-- As a customer, I want to see the total cost of my cart so that I know how much I need to pay.
-- As a customer, I want to check out my cart so that I can complete my purchase.
-- As a customer, I want to enter a cash payment amount so that I can pay for my order.
-- As the store system, I want to validate that the payment is enough to cover the cart total so that incomplete purchases are prevented.
-- As a customer, I want to receive my change after paying so that the transaction is accurate.
-- As a customer, I want to see a receipt with all purchased items and change given so that I have proof of my purchase.
-- As the store system, I want to clear the shopping cart after checkout so that the next session starts fresh.
+- As a user, I want to access a home screen so that I can choose what action I want to perform.
+- As a user, I want to add a deposit so that I can record money going into my account.
+- As a user, I want to make a payment so that I can record money leaving my account.
+- As a user, I want to open the ledger screen so that I can review my transaction history.
+- As a user, I want to view all ledger entries with the newest first so that I can see my most recent transactions immediately.
+- As a user, I want to view only deposits so that I can see money added to my account.
+- As a user, I want to view only payments so that I can see money deducted from my account.
+- As a user, I want to open a reports screen so that I can run pre-defined transaction reports.
+- As a user, I want to view my month-to-date transactions so that I can review activity from the current month.
+- As a user, I want to view transactions from the previous month so that I can review last month’s account activity.
+- As a user, I want to view year-to-date transactions so that I can review activity from the current year.
+- As a user, I want to view transactions from the previous year so that I can review last year’s account activity.
+- As a user, I want to search transactions by vendor so that I can quickly find purchases or deposits from a specific source.
+- As a user, I want to return from the reports screen to the ledger screen so that I can continue reviewing transactions.
+- As a user, I want to return from the ledger screen to the home screen so that I can continue using the application.
+- As a user, I want to exit the application so that I can close the program when I am done.
 
 ## Bonus User Stories
 
-- As a customer, I want repeated cart items grouped with quantities so that my cart is easier to read.
-- As the store system, I want to save each sales receipt to a file so that transaction records are preserved.
-- As the store system, I want receipt files to use a timestamp as the filename so that each receipt is unique.
+- As a user, I want to run a custom search so that I can filter transactions using multiple fields.
+- As a user, I want the application to have a custom theme so that it feels unique and more engaging.
+- Git installed if you are cloning the project from GitHub
 
 ## Setup
 
-Instructions on how to set up and run the project using IntelliJ IDEA.
+- Instructions on how to set up and run the project using IntelliJ IDEA.
 
 ### Prerequisites
 
 - IntelliJ IDEA: Ensure you have IntelliJ IDEA installed, which you can download from [here](https://www.jetbrains.com/idea/download/).
 - Java SDK: Make sure Java SDK is installed and configured in IntelliJ.
+- Git installed if you are cloning the project from GitHub
 
 ### Running the Application in IntelliJ
 
@@ -45,14 +52,14 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 ## Technologies Used
 
-- Java: Mention the version you are using.
-- Any additional libraries or frameworks used in the project.
+- Java 17
+- IntelliJ IDEA
+- CSV file handling using standard Java file I/O
+- Object-oriented programming principles
 
 ## Demo
 
 Include screenshots or GIFs that show your application in action. Use tools like [Giphy Capture](https://giphy.com/apps/giphycapture) to record a GIF of your application.
-
-![Application Screenshot](path/to/your/screenshot.png)
 
 ## Future Work
 
@@ -63,15 +70,17 @@ Outline potential future enhancements or functionalities you might consider addi
 
 ## Resources
 
-List resources such as tutorials, articles, or documentation that helped you during the project.
 
-- [Java Programming Tutorial](https://www.example.com)
-- [Effective Java](https://www.example.com)
+Resources that helped during development:
+- Java documentation
+- IntelliJ IDEA documentation
+- CSV file handling examples in Java
+- Class notes and workshop materials
 
 ## Team Members
 
-- **Name 1** - Specific contributions or roles.
-- **Name 2** - Specific contributions or roles.
+- **Christopher Devalme** - Designed and built the Finance CLI App, including transaction entry, ledger view, reports, and README documentation.
+
 
 ## Thanks
 
