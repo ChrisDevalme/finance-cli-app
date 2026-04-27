@@ -1,6 +1,8 @@
 package com.pluralsight;
 
-import java.io.File;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -51,7 +53,7 @@ public class FinancialTracker {
             String input = scanner.nextLine().trim();
 
             switch (input.toUpperCase()) {
-                case "D" -> addDeposit(scanner);
+                case "D" -> addDeposit(scanner, FILE_NAME);
                 case "P" -> addPayment(scanner);
                 case "L" -> ledgerMenu(scanner);
                 case "X" -> running = false;
@@ -86,10 +88,36 @@ public class FinancialTracker {
      * Validate that the amount entered is positive.
      * Store the amount as-is (positive) and append to the file.
      */
-    private static void addDeposit(Scanner scanner) {
+    private static void addDeposit(Scanner scanner, String fileName) {
         // TODO
+        System.out.println("Enter date of Transaction - (Format: yyyy-MM-dd Ex: 2026-04-21): ");
+        String transactionDate = scanner.nextLine();
+        System.out.println("Enter time of Transaction - (Format: HH:mm:ss Ex: 09:41:10): ");
+        String transactionTime = scanner.nextLine();
+        System.out.println("Enter name of Transaction: ");
+        String transactionName = scanner.nextLine();
+        System.out.println("Enter Location/Vendor of Transaction: ");
+        String transactionLocation = scanner.nextLine();
+        System.out.println("Enter cost of Transaction: ");
+        double transactionCost = scanner.nextDouble();
+        scanner.nextLine();
 
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName, true));
 
+            LocalDate transactionDateFMT = LocalDate.parse(transactionDate);
+            LocalTime transactionTimeFMT = LocalTime.parse(transactionTime);
+            if (transactionCost > 0) {
+                Transaction newTransaction = new Transaction(transactionDateFMT, transactionTimeFMT, transactionName, transactionLocation, transactionCost);
+                bufferedWriter.write(newTransaction.toString() + "\n");
+            } else {
+                System.out.println("Enter Positive Numbers Only.");
+            }
+            bufferedWriter.close();
+
+        } catch (Exception e) {
+            System.out.println("Invalid File, try again.");
+        }
     }
 
     /**

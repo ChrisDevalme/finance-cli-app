@@ -1,25 +1,45 @@
 package com.pluralsight;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Transaction {
-    private LocalDateTime dateTime;
+    private LocalDate date;
+    private LocalTime time;
     private String transactionName;
+    private String transactionLocation;
     private double transactionAmount;
 
-    public Transaction(LocalDateTime dateTime, String transactionName, double transactionAmount) {
-        this.dateTime = dateTime;
+    public Transaction(LocalDate date, LocalTime time, String transactionName, String transactionLocation, double transactionAmount) {
+        this.date = date;
+        this.time = time;
         this.transactionName = transactionName;
+        this.transactionLocation = transactionLocation;
         this.transactionAmount = transactionAmount;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public String getTransactionLocation() {
+        return transactionLocation;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setTransactionLocation(String transactionLocation) {
+        this.transactionLocation = transactionLocation;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public String getTransactionName() {
@@ -40,9 +60,8 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Transaction - " +
-                "Date/Time: " + dateTime + " | " +
-                "Name: '" + transactionName + '\'' + " | " +
-                "Amount: $" + transactionAmount;
+        return  date + "|" + time + "|" +
+                transactionName + "|" + transactionLocation
+                + "|" + transactionAmount;
     }
 }
