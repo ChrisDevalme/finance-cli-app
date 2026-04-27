@@ -85,16 +85,7 @@ public class FinancialTracker {
         String line;
 
         while((line = bf.readLine()) != null ) {
-            String[] transactionLineItem = line.split("\\|");
-            LocalDate transactionDate = LocalDate.parse(transactionLineItem[0]);
-            LocalTime transactionTime = LocalTime.parse(transactionLineItem[1]);
-            String transactionName = transactionLineItem[2];
-            String transactionVendorName = transactionLineItem[3];
-            double transactionValue = Double.parseDouble(transactionLineItem[4]);
-
-            Transaction newTransaction = new Transaction(transactionDate, transactionTime, transactionName,
-                    transactionVendorName, transactionValue);
-
+            Transaction newTransaction = getTransaction(line);
             transactions.add(newTransaction);
         }
         bf.close();
@@ -102,6 +93,18 @@ public class FinancialTracker {
             System.out.println("Invalid file. Try again.");
         }
 
+    }
+
+    private static Transaction getTransaction(String line) {
+        String[] transactionLineItem = line.split("\\|");
+        LocalDate transactionDate = LocalDate.parse(transactionLineItem[0]);
+        LocalTime transactionTime = LocalTime.parse(transactionLineItem[1]);
+        String transactionName = transactionLineItem[2];
+        String transactionVendorName = transactionLineItem[3];
+        double transactionValue = Double.parseDouble(transactionLineItem[4]);
+
+        return new Transaction(transactionDate, transactionTime, transactionName,
+                transactionVendorName, transactionValue);
     }
 
     /* ------------------------------------------------------------------
@@ -204,7 +207,7 @@ public class FinancialTracker {
             String input = scanner.nextLine().trim();
 
             switch (input.toUpperCase()) {
-                case "A" -> displayLedger();
+                case "A" -> displayLedger(FILE_NAME);
                 case "D" -> displayDeposits();
                 case "P" -> displayPayments();
                 case "R" -> reportsMenu(scanner);
@@ -217,7 +220,29 @@ public class FinancialTracker {
     /* ------------------------------------------------------------------
        Display helpers: show data in neat columns
        ------------------------------------------------------------------ */
-    private static void displayLedger() { /* TODO – print all transactions in column format */ }
+    private static void displayLedger(String fileName) {
+        /* TODO – print all transactions in column format */
+
+        try{
+            BufferedReader bf = new BufferedReader(new FileReader(fileName));
+            String line;
+
+            System.out.printf("%-15s %-15s %-35s %-25s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
+            System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
+                    "- - - - - - - - - - - - - - - - - - - - ");
+            while((line = bf.readLine()) != null) {
+                Transaction newTransaction = getTransaction(line);
+                System.out.printf("%-15s %-15s %-35s %-25s %-10.2f %n", newTransaction.getDate(), newTransaction.getTime(),
+                        newTransaction.getTransactionName(), newTransaction.getTransactionLocation(), newTransaction.getTransactionAmount());
+
+
+
+            }
+        } catch(Exception e) {
+            System.out.println("Invalid File.");
+        }
+
+    }
 
     private static void displayDeposits() { /* TODO – only amount > 0               */ }
 
