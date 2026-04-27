@@ -138,7 +138,7 @@ public class FinancialTracker {
             LocalTime transactionTimeFMT = LocalTime.parse(transactionTime);
             if (transactionAmount > 0) {
                 Transaction newTransaction = new Transaction(transactionDateFMT, transactionTimeFMT, transactionName, transactionLocation, transactionAmount);
-                bufferedWriter.write(newTransaction.toString() + "\n");
+                bufferedWriter.write(newTransaction + "\n");
                 System.out.println("Transaction Recorded");
             } else {
                 System.out.println("Enter Positive Numbers Only.");
@@ -177,7 +177,7 @@ public class FinancialTracker {
             LocalTime transactionTimeFMT = LocalTime.parse(transactionTime);
             if (transactionCost > 0) {
                 Transaction newTransaction = new Transaction(transactionDateFMT, transactionTimeFMT, transactionName, transactionLocation, -transactionCost);
-                bufferedWriter.write(newTransaction.toString() + "\n");
+                bufferedWriter.write(newTransaction + "\n");
                 System.out.println("Transaction Recorded.");
             } else {
                 System.out.println("Enter Positive Numbers Only.");
@@ -208,8 +208,8 @@ public class FinancialTracker {
 
             switch (input.toUpperCase()) {
                 case "A" -> displayLedger(FILE_NAME);
-                case "D" -> displayDeposits();
-                case "P" -> displayPayments();
+                case "D" -> displayDeposits(FILE_NAME);
+                case "P" -> displayPayments(FILE_NAME);
                 case "R" -> reportsMenu(scanner);
                 case "H" -> running = false;
                 default -> System.out.println("Invalid option");
@@ -234,9 +234,6 @@ public class FinancialTracker {
                 Transaction newTransaction = getTransaction(line);
                 System.out.printf("%-15s %-15s %-35s %-25s %-10.2f %n", newTransaction.getDate(), newTransaction.getTime(),
                         newTransaction.getTransactionName(), newTransaction.getTransactionLocation(), newTransaction.getTransactionAmount());
-
-
-
             }
         } catch(Exception e) {
             System.out.println("Invalid File.");
@@ -244,9 +241,52 @@ public class FinancialTracker {
 
     }
 
-    private static void displayDeposits() { /* TODO – only amount > 0               */ }
+    private static void displayDeposits(String fileName) {
+        /* TODO – only amount > 0               */
 
-    private static void displayPayments() { /* TODO – only amount < 0               */ }
+        try{
+            BufferedReader bf = new BufferedReader(new FileReader(fileName));
+            String line;
+
+            System.out.printf("%-15s %-15s %-35s %-25s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
+            System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
+                    "- - - - - - - - - - - - - - - - - - - - ");
+            while((line = bf.readLine()) != null) {
+                Transaction newTransaction = getTransaction(line);
+                if(newTransaction.getTransactionAmount() > 0) {
+                    System.out.printf("%-15s %-15s %-35s %-25s %-10.2f %n", newTransaction.getDate(), newTransaction.getTime(),
+                            newTransaction.getTransactionName(), newTransaction.getTransactionLocation(), newTransaction.getTransactionAmount());
+                }
+            }
+        } catch(Exception e) {
+            System.out.println("Invalid File.");
+        }
+    }
+
+    private static void displayPayments(String fileName) {
+        /* TODO – only amount < 0               */
+
+        try{
+            BufferedReader bf = new BufferedReader(new FileReader(fileName));
+            String line;
+
+            System.out.printf("%-15s %-15s %-35s %-25s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
+            System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
+                    "- - - - - - - - - - - - - - - - - - - - ");
+            while((line = bf.readLine()) != null) {
+                Transaction newTransaction = getTransaction(line);
+                if(newTransaction.getTransactionAmount() < 0) {
+                    System.out.printf("%-15s %-15s %-35s %-25s %-10.2f %n", newTransaction.getDate(), newTransaction.getTime(),
+                            newTransaction.getTransactionName(), newTransaction.getTransactionLocation(), newTransaction.getTransactionAmount());
+                }
+            }
+        } catch(Exception e) {
+            System.out.println("Invalid File.");
+        }
+
+
+
+    }
 
     /* ------------------------------------------------------------------
        Reports menu
