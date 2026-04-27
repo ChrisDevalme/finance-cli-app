@@ -54,7 +54,7 @@ public class FinancialTracker {
 
             switch (input.toUpperCase()) {
                 case "D" -> addDeposit(scanner, FILE_NAME);
-                case "P" -> addPayment(scanner);
+                case "P" -> addPayment(scanner, FILE_NAME);
                 case "L" -> ledgerMenu(scanner);
                 case "X" -> running = false;
                 default -> System.out.println("Invalid option");
@@ -98,8 +98,8 @@ public class FinancialTracker {
         String transactionName = scanner.nextLine();
         System.out.println("Enter Location/Vendor of Transaction: ");
         String transactionLocation = scanner.nextLine();
-        System.out.println("Enter cost of Transaction: ");
-        double transactionCost = scanner.nextDouble();
+        System.out.println("Enter amount of Transaction: ");
+        double transactionAmount = scanner.nextDouble();
         scanner.nextLine();
 
         try {
@@ -107,9 +107,10 @@ public class FinancialTracker {
 
             LocalDate transactionDateFMT = LocalDate.parse(transactionDate);
             LocalTime transactionTimeFMT = LocalTime.parse(transactionTime);
-            if (transactionCost > 0) {
-                Transaction newTransaction = new Transaction(transactionDateFMT, transactionTimeFMT, transactionName, transactionLocation, transactionCost);
+            if (transactionAmount > 0) {
+                Transaction newTransaction = new Transaction(transactionDateFMT, transactionTimeFMT, transactionName, transactionLocation, transactionAmount);
                 bufferedWriter.write(newTransaction.toString() + "\n");
+                System.out.println("Transaction Recorded");
             } else {
                 System.out.println("Enter Positive Numbers Only.");
             }
@@ -125,9 +126,40 @@ public class FinancialTracker {
      * Amount must be entered as a positive number,
      * then converted to a negative amount before storing.
      */
-    private static void addPayment(Scanner scanner) {
+    private static void addPayment(Scanner scanner, String fileName) {
         // TODO
+        System.out.println("Enter date of Payment - (Format: yyyy-MM-dd Ex: 2026-04-21): ");
+        String transactionDate = scanner.nextLine();
+        System.out.println("Enter time of Payment - (Format: HH:mm:ss Ex: 09:41:10): ");
+        String transactionTime = scanner.nextLine();
+        System.out.println("Enter name of Payment: ");
+        String transactionName = scanner.nextLine();
+        System.out.println("Enter Location/Vendor of Payment: ");
+        String transactionLocation = scanner.nextLine();
+        System.out.println("Enter cost of Payment (Positive number's only): ");
+        double transactionCost = scanner.nextDouble();
+
+        scanner.nextLine();
+
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName, true));
+
+            LocalDate transactionDateFMT = LocalDate.parse(transactionDate);
+            LocalTime transactionTimeFMT = LocalTime.parse(transactionTime);
+            if (transactionCost > 0) {
+                Transaction newTransaction = new Transaction(transactionDateFMT, transactionTimeFMT, transactionName, transactionLocation, -transactionCost);
+                bufferedWriter.write(newTransaction.toString() + "\n");
+                System.out.println("Transaction Recorded.");
+            } else {
+                System.out.println("Enter Positive Numbers Only.");
+            }
+            bufferedWriter.close();
+
+        } catch (Exception e) {
+            System.out.println("Invalid File, try again.");
+        }
     }
+
 
     /* ------------------------------------------------------------------
        Ledger menu
