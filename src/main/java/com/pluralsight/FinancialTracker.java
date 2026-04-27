@@ -1,7 +1,9 @@
 package com.pluralsight;
 
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -37,7 +39,9 @@ public class FinancialTracker {
        Main menu
        ------------------------------------------------------------------ */
     public static void main(String[] args) {
-        loadTransactions(FILE_NAME);
+        loadTransactions(FILE_NAME, transactions);
+
+
 
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -72,10 +76,32 @@ public class FinancialTracker {
      * • If the file doesn’t exist, create an empty one so that future writes succeed.
      * • Each line looks like: date|time|description|vendor|amount
      */
-    public static void loadTransactions(String fileName) {
+    public static void loadTransactions(String fileName, ArrayList<Transaction> transactions) {
         // TODO: create file if it does not exist, then read each line,
         //       parse the five fields, build a Transaction object,
         //       and add it to the transactions list.
+        try{
+        BufferedReader bf = new BufferedReader(new FileReader(fileName));
+        String line;
+
+        while((line = bf.readLine()) != null ) {
+            String[] transactionLineItem = line.split("\\|");
+            LocalDate transactionDate = LocalDate.parse(transactionLineItem[0]);
+            LocalTime transactionTime = LocalTime.parse(transactionLineItem[1]);
+            String transactionName = transactionLineItem[2];
+            String transactionVendorName = transactionLineItem[3];
+            double transactionValue = Double.parseDouble(transactionLineItem[4]);
+
+            Transaction newTransaction = new Transaction(transactionDate, transactionTime, transactionName,
+                    transactionVendorName, transactionValue);
+
+            transactions.add(newTransaction);
+        }
+        bf.close();
+        } catch (Exception e) {
+            System.out.println("Invalid file. Try again.");
+        }
+
     }
 
     /* ------------------------------------------------------------------
