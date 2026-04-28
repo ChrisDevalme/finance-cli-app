@@ -34,6 +34,9 @@ public class FinancialTracker {
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern(DATE_PATTERN);
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern(TIME_PATTERN);
     private static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern(DATETIME_PATTERN);
+    private static final LocalDate today = LocalDate.now();
+    private static final LocalDate previousMonthDay1 = today.minusMonths(1).withDayOfMonth(1);
+    private static final LocalDate previousYearDay1 = today.minusYears(1).withDayOfYear(1);
 
 
     /* ------------------------------------------------------------------
@@ -275,11 +278,11 @@ public class FinancialTracker {
             String input = scanner.nextLine().trim();
 
             switch (input) {
-                case "1" -> { filterTransactionsByDate(LocalDate.now().withDayOfMonth(1), LocalDate.now()); }
-                case "2" -> {/* TODO – previous month report */ }
-                case "3" -> {/* TODO – year-to-date report   */ }
-                case "4" -> {/* TODO – previous year report  */ }
-                case "5" -> {/* TODO – prompt for vendor then report */ }
+                case "1" -> {filterTransactionsByDate(today.withDayOfMonth(1), today); }
+                case "2" -> {filterTransactionsByDate(previousMonthDay1, previousMonthDay1.withDayOfMonth(previousMonthDay1.lengthOfMonth())); }
+                case "3" -> {filterTransactionsByDate(today.withDayOfYear(1), today); }
+                case "4" -> {filterTransactionsByDate(previousYearDay1, previousYearDay1.withMonth(12).withDayOfMonth(31));}
+                case "5" -> {filterTransactionsByVendor(scanner); }
                 case "6" -> customSearch(scanner);
                 case "0" -> running = false;
                 default -> System.out.println("Invalid option");
@@ -307,8 +310,16 @@ public class FinancialTracker {
 
     }
 
-    private static void filterTransactionsByVendor(String vendor) {
+    private static void filterTransactionsByVendor(Scanner scanner) {
         // TODO – iterate transactions, print those with matching vendor
+        System.out.println("Enter Vendor for search: ");
+        String vendor = scanner.nextLine();
+        for (Transaction transaction : transactions) {
+            String transactionVendor = transaction.getTransactionLocation();
+            if (transactionVendor.equalsIgnoreCase(vendor)) {
+                System.out.println(transaction);
+            }
+        }
     }
 
     private static void customSearch(Scanner scanner) {
