@@ -325,18 +325,79 @@ public class FinancialTracker {
     private static void customSearch(Scanner scanner) {
         // TODO – prompt for any combination of date range, description,
         //        vendor, and exact amount, then display matches
+        System.out.print("Start date (yyyy-MM-dd) (blank = any): ");
+        String startInput = scanner.nextLine().trim();
+        LocalDate startDate = parseDate(startInput);
+
+        System.out.print("End date (yyyy-MM-dd) (blank = any): ");
+        String endInput = scanner.nextLine().trim();
+        LocalDate endDate = parseDate(endInput);
+
+        System.out.print("Description (blank = any): ");
+        String descriptionInput = scanner.nextLine().trim();
+        System.out.print("Vendor (blank = any): ");
+        String vendorInput = scanner.nextLine().trim();
+        System.out.print("Amount (blank = any): ");
+        String amountInput = scanner.nextLine().trim();
+        Double amountDouble = parseDouble(amountInput);
+
+        System.out.printf("%-15s %-15s %-35s %-25s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
+                "- - - - - - - - - - - - - - - - - - - - ");
+        for (Transaction transaction : transactions) {
+            boolean matches = true;
+
+            if (startDate != null && transaction.getDate().isBefore(startDate)) {
+                matches = false;
+            }
+
+            if (endDate != null && transaction.getDate().isAfter(endDate)) {
+                matches = false;
+            }
+
+            if (!descriptionInput.isEmpty() &&
+                    !transaction.getTransactionName().toLowerCase().contains(descriptionInput.toLowerCase())) {
+                matches = false;
+            }
+
+            if (!vendorInput.isEmpty() &&
+                    !transaction.getTransactionLocation().toLowerCase().contains(vendorInput.toLowerCase())) {
+                matches = false;
+            }
+
+            if (amountDouble != null && transaction.getTransactionAmount() != amountDouble) {
+                matches = false;
+            }
+
+            if (matches) {
+                System.out.printf("%-15s %-15s %-35s %-25s %-10.2f %n", transaction.getDate(), transaction.getTime(),
+                        transaction.getTransactionName(), transaction.getTransactionLocation(), transaction.getTransactionAmount());
+            }
+        }
     }
 
     /* ------------------------------------------------------------------
        Utility parsers (you can reuse in many places)
        ------------------------------------------------------------------ */
     private static LocalDate parseDate(String s) {
+
         /* TODO – return LocalDate or null */
-        return null;
+        LocalDate date = null;
+        if (!s.isEmpty()) {
+            date = LocalDate.parse(s);
+        }
+
+        return date;
     }
 
     private static Double parseDouble(String s) {
         /* TODO – return Double   or null */
-        return null;
+
+        Double amount = null;
+        if (!s.isEmpty()) {
+            amount = Double.parseDouble(s);
+        }
+
+        return amount;
     }
 }
