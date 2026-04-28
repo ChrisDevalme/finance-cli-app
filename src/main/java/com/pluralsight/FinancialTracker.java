@@ -93,9 +93,8 @@ public class FinancialTracker {
             String transactionVendorName = transactionLineItem[3];
             double transactionValue = Double.parseDouble(transactionLineItem[4]);
 
-            Transaction newTransaction = new Transaction(transactionDate, transactionTime, transactionName,
-                    transactionVendorName, transactionValue);
-            transactions.add(newTransaction);
+            transactions.add(new Transaction(transactionDate, transactionTime, transactionName,
+                    transactionVendorName, transactionValue));
         }
         bf.close();
         } catch (Exception e) {
@@ -276,7 +275,7 @@ public class FinancialTracker {
             String input = scanner.nextLine().trim();
 
             switch (input) {
-                case "1" -> {  }
+                case "1" -> { filterTransactionsByDate(LocalDate.now().withDayOfMonth(1), LocalDate.now()); }
                 case "2" -> {/* TODO – previous month report */ }
                 case "3" -> {/* TODO – year-to-date report   */ }
                 case "4" -> {/* TODO – previous year report  */ }
@@ -293,6 +292,18 @@ public class FinancialTracker {
        ------------------------------------------------------------------ */
     private static void filterTransactionsByDate(LocalDate start, LocalDate end) {
         // TODO – iterate transactions, print those within the range
+
+        System.out.printf("%-15s %-15s %-35s %-25s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
+                "- - - - - - - - - - - - - - - - - - - - ");
+        for (Transaction transaction : transactions) {
+            LocalDate transactionDate = transaction.getDate();
+            if(!transactionDate.isBefore(start) && !transactionDate.isAfter(end)) {
+                System.out.printf("%-15s %-15s %-35s %-25s %-10.2f %n", transaction.getDate(), transaction.getTime(),
+                        transaction.getTransactionName(), transaction.getTransactionLocation(), transaction.getTransactionAmount());
+            }
+            
+        }
 
     }
 
