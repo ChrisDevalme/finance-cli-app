@@ -34,9 +34,21 @@ public class FinancialTracker {
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern(DATE_PATTERN);
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern(TIME_PATTERN);
     private static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern(DATETIME_PATTERN);
+
+    // Date Manipulation:
     private static final LocalDate today = LocalDate.now();
     private static final LocalDate previousMonthDay1 = today.minusMonths(1).withDayOfMonth(1);
     private static final LocalDate previousYearDay1 = today.minusYears(1).withDayOfYear(1);
+
+    // Colors:
+    private static final String RED = "\u001B[31m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String BLACK = "\u001B[30m";
+    private static final String RESET = "\u001B[0m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String BLUE_BACKGROUND = "\u001B[44m";
+    private static final String RED_BACKGROUND = "\u001B[41m";
 
 
     /* ------------------------------------------------------------------
@@ -51,12 +63,12 @@ public class FinancialTracker {
         boolean running = true;
 
         while (running) {
-            System.out.println("Welcome to TransactionApp");
-            System.out.println("Choose an option:");
-            System.out.println("D) Add Deposit");
-            System.out.println("P) Make Payment (Debit)");
-            System.out.println("L) Ledger");
-            System.out.println("X) Exit");
+            System.out.println(BLUE_BACKGROUND + BLACK + "Welcome to TransactionApp" + RESET);
+            System.out.println(BLUE_BACKGROUND + BLACK + "Choose an option:" + RESET);
+            System.out.println(GREEN + "D) Add Deposit" + RESET);
+            System.out.println(RED + "P) Make Payment (Debit)" + RESET);
+            System.out.println(BLUE + "L) Ledger" + RESET);
+            System.out.println(RED_BACKGROUND + BLACK + "X) Exit" + RESET);
 
             String input = scanner.nextLine().trim();
 
@@ -199,9 +211,9 @@ public class FinancialTracker {
         while (running) {
             System.out.println("Ledger");
             System.out.println("Choose an option:");
-            System.out.println("A) All");
-            System.out.println("D) Deposits");
-            System.out.println("P) Payments");
+            System.out.println(BLUE + "A) All" + RESET);
+            System.out.println(GREEN + "D) Deposits" + RESET);
+            System.out.println(RED + "P) Payments" + RESET);
             System.out.println("R) Reports");
             System.out.println("H) Home");
 
@@ -227,15 +239,21 @@ public class FinancialTracker {
             System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
                     "- - - - - - - - - - - - - - - - - - - - ");
         for (Transaction transaction : transactions) {
-            System.out.printf("%-15s %-15s %-35s %-25s %-10.2f %n", transaction.getDate(), transaction.getTime(),
-                    transaction.getTransactionName(), transaction.getTransactionLocation(), transaction.getTransactionAmount());
+            if (transaction.getTransactionAmount() > 0) {
+                System.out.printf(GREEN + "%-15s %-15s %-35s %-25s %-10.2f %n" + RESET, transaction.getDate(), transaction.getTime(),
+                        transaction.getTransactionName(), transaction.getTransactionLocation(), transaction.getTransactionAmount());
+            }
+            if(transaction.getTransactionAmount() < 0) {
+                System.out.printf(RED + "%-15s %-15s %-35s %-25s %-10.2f %n" + RESET, transaction.getDate(), transaction.getTime(),
+                        transaction.getTransactionName(), transaction.getTransactionLocation(), transaction.getTransactionAmount());
+            }
         }
 
     }
 
     private static void displayDeposits() {
         /* TODO – only amount > 0               */
-            System.out.printf("%-15s %-15s %-35s %-25s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
+            System.out.printf(GREEN + "%-15s %-15s %-35s %-25s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount" + RESET);
             System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
                     "- - - - - - - - - - - - - - - - - - - - ");
         for (Transaction transaction : transactions) {
@@ -253,7 +271,7 @@ public class FinancialTracker {
                     "- - - - - - - - - - - - - - - - - - - - ");
         for (Transaction transaction : transactions) {
             if(transaction.getTransactionAmount() < 0) {
-                System.out.printf("%-15s %-15s %-35s %-25s %-10.2f %n", transaction.getDate(), transaction.getTime(),
+                System.out.printf(RED + "%-15s %-15s %-35s %-25s %-10.2f %n" + RESET, transaction.getDate(), transaction.getTime(),
                         transaction.getTransactionName(), transaction.getTransactionLocation(), transaction.getTransactionAmount());
             }
         }
@@ -302,8 +320,14 @@ public class FinancialTracker {
         for (Transaction transaction : transactions) {
             LocalDate transactionDate = transaction.getDate();
             if(!transactionDate.isBefore(start) && !transactionDate.isAfter(end)) {
-                System.out.printf("%-15s %-15s %-35s %-25s %-10.2f %n", transaction.getDate(), transaction.getTime(),
-                        transaction.getTransactionName(), transaction.getTransactionLocation(), transaction.getTransactionAmount());
+                if (transaction.getTransactionAmount() > 0) {
+                    System.out.printf(GREEN + "%-15s %-15s %-35s %-25s %-10.2f %n" + RESET, transaction.getDate(), transaction.getTime(),
+                            transaction.getTransactionName(), transaction.getTransactionLocation(), transaction.getTransactionAmount());
+                }
+                if (transaction.getTransactionAmount() < 0) {
+                    System.out.printf(RED + "%-15s %-15s %-35s %-25s %-10.2f %n" + RESET, transaction.getDate(), transaction.getTime(),
+                            transaction.getTransactionName(), transaction.getTransactionLocation(), transaction.getTransactionAmount());
+                }
             }
             
         }
@@ -370,8 +394,14 @@ public class FinancialTracker {
             }
 
             if (matches) {
-                System.out.printf("%-15s %-15s %-35s %-25s %-10.2f %n", transaction.getDate(), transaction.getTime(),
+                if (transaction.getTransactionAmount() > 0) {
+                System.out.printf(GREEN + "%-15s %-15s %-35s %-25s %-10.2f %n" + RESET, transaction.getDate(), transaction.getTime(),
                         transaction.getTransactionName(), transaction.getTransactionLocation(), transaction.getTransactionAmount());
+                }
+                if (transaction.getTransactionAmount() < 0) {
+                System.out.printf(RED + "%-15s %-15s %-35s %-25s %-10.2f %n" + RESET, transaction.getDate(), transaction.getTime(),
+                        transaction.getTransactionName(), transaction.getTransactionLocation(), transaction.getTransactionAmount());
+                }
             }
         }
     }
