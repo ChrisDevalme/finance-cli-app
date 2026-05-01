@@ -6,24 +6,24 @@ import java.time.LocalTime;
 public class Transaction {
     private LocalDate date;
     private LocalTime time;
-    private String transactionName;
-    private String transactionLocation;
-    private double transactionAmount;
+    private String description;
+    private String vendor;
+    private double amount;
 
-    public Transaction(LocalDate date, LocalTime time, String transactionName, String transactionLocation, double transactionAmount) {
+    public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
-        this.transactionName = transactionName;
-        this.transactionLocation = transactionLocation;
-        this.transactionAmount = transactionAmount;
+        this.description = description;
+        this.vendor = vendor;
+        this.amount = amount;
     }
 
-    public String getTransactionLocation() {
-        return transactionLocation;
+    public String getVendor() {
+        return vendor;
     }
 
-    public void setTransactionLocation(String transactionLocation) {
-        this.transactionLocation = transactionLocation;
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
     }
 
     public LocalTime getTime() {
@@ -42,26 +42,26 @@ public class Transaction {
         this.date = date;
     }
 
-    public String getTransactionName() {
-        return transactionName;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTransactionName(String transactionName) {
-        this.transactionName = transactionName;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public double getTransactionAmount() {
-        return transactionAmount;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setTransactionAmount(double transactionAmount) {
-        this.transactionAmount = transactionAmount;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     @Override
     public String toString() {
         return  date + "|" + time + "|" +
-                transactionName + "|" + transactionLocation
-                + "|" + transactionAmount;
+                description + "|" + vendor
+                + "|" + String.format("%.2f", amount);
     }
 }

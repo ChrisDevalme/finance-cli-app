@@ -53,13 +53,10 @@ Follow these steps to get your application running within IntelliJ IDEA:
 ## Technologies Used
 
 - Java 17
-- IntelliJ IDEA
-- CSV file handling using standard Java file I/O
-- Object-oriented programming principles
 
 ## Demo
 
-Include screenshots or GIFs that show your application in action. Use tools like [Giphy Capture](https://giphy.com/apps/giphycapture) to record a GIF of your application.
+[Screen Recording 2026-04-30 at 10.57.29 PM.mov](../../../Screen%20Recording%202026-04-30%20at%2010.57.29%E2%80%AFPM.mov)
 
 ## Future Work
 
